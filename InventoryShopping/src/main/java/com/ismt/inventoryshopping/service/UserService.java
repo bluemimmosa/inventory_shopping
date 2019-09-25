@@ -16,7 +16,7 @@ public interface UserService {
     public User verifyUser(User u);
     public boolean createUser(User u);
     public User editUser(User u);
-    public boolean changePassword(User u);
+    public boolean changePassword(User u, String password);
     public boolean revokeUser(User u);
     public ArrayList<User> listAllUser();
     public boolean banUser(User u);

@@ -6,7 +6,9 @@
 package com.ismt.inventoryshopping.controller;
 
 import com.ismt.inventoryshopping.entity.User;
+import com.ismt.inventoryshopping.service.UserService;
 import javax.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +23,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
     ModelAndView mav;
     
+    @Autowired
+    UserService userService;
+    
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ModelAndView showLogin() {
         mav = new ModelAndView("home");
@@ -32,7 +37,7 @@ public class UserController {
     
     @RequestMapping(value = "/loginProcess", method = RequestMethod.POST)
     public ModelAndView loginProcess(@ModelAttribute User usr, HttpSession session) {
-        user = userService.verfiyUser(usr);
+        User user = userService.verifyUser(usr);
         if (user != null) {
             mav = new ModelAndView("dashboard");
             //mav.addObject("name", user.getName());

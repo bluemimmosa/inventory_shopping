@@ -7,6 +7,8 @@ package com.ismt.inventoryshopping.dao;
 
 import com.ismt.inventoryshopping.entity.User;
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +19,19 @@ public class UserDAOImplementation implements UserDAO{
 
     @Override
     public User verifyUser(String username, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM shopping.user WHERE username = '"+username+"' AND password = '"+password+"';";
+        ResultSet rs = dbConn.select(sql);
+        try {
+            while (rs.next()) {
+                User tmp = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), Date.valueOf(rs.getString(6)), (rs.getInt(7)==0) ? Boolean.FALSE : Boolean.TRUE, (rs.getInt(8)==0) ? Boolean.FALSE : Boolean.TRUE);
+                if(tmp.getUsername().equals(username) && tmp.getPassword().equals(password)){
+                    return tmp;
+                }
+            }
+        } catch (SQLException sQLException) {
+           return null;
+        }
+        return null;
     }
 
     @Override
@@ -28,50 +42,60 @@ public class UserDAOImplementation implements UserDAO{
                 + "('"+user_id+"', '"+username+"', '"+password+"', "
                 + "'"+name+"', '"+address+"', '"+joined_date+"', "
                 + "'"+active+"', '"+banned+"');";
-        if(dbConn.iud(sql)){
-            return true;
+        return dbConn.iud(sql);
+    }
+
+    @Override
+    public boolean editUser(int user_id, String username, String password, String name, String address, Date joined_date, boolean active, boolean banned) {
+        String sql = "UPDATE `shopping`.`user` SET `username` = '"+username+"', `password` = '"+password+"', `name` = '"+name+"', `address` = '"+address+"', `joined_date` = '"+joined_date+"', `active` = '"+active+"', `banned` = '"+banned+"' WHERE (`user_id` = '"+user_id+"');";
+        return dbConn.iud(sql);
+    }
+
+    @Override
+    public boolean editUser(int user_id, String param, String value) {
+        String sql;
+        if(param.equals("active")||param.equals("banned")){
+            sql = "UPDATE `shopping`.`user` SET `"+param+"` = '"+Integer.parseInt(value)+"' WHERE (`user_id` = '"+user_id+"');";
+        }else{
+            sql = "UPDATE `shopping`.`user` SET `"+param+"` = '"+value+"' WHERE (`user_id` = '"+user_id+"');";
         }
-        return false;
+        return dbConn.iud(sql);
+
     }
 
-    @Override
-    public User editUser(int user_id, String username, String password, String name, String address, Date joined_date, boolean active, boolean banned) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public User editUser(int user_id, String param, String value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean changePassword(int user_id, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean revokeUser(int user_id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 
     @Override
     public ArrayList<User> listAllUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean banUser(int user_id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean unbanUser(int user_id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql ="SELECT * FROM shopping.user;";
+        ResultSet rs = dbConn.select(sql);
+        ArrayList<User> data = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                User tmp = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), Date.valueOf(rs.getString(6)), (rs.getInt(7)==0) ? Boolean.FALSE : Boolean.TRUE, (rs.getInt(8)==0) ? Boolean.FALSE : Boolean.TRUE);
+                data.add(tmp);
+            }
+        } catch (SQLException sQLException) {
+           return null;
+        }
+        return data;
     }
 
     @Override
     public boolean isAlready(User u) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "SELECT * FROM shopping.user WHERE username = '"+u.getUsername()+"';";
+        ResultSet rs = dbConn.select(sql);
+        try {
+            while (rs.next()) {
+                User tmp = new User(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5), Date.valueOf(rs.getString(6)), (rs.getInt(7)==0) ? Boolean.FALSE : Boolean.TRUE, (rs.getInt(8)==0) ? Boolean.FALSE : Boolean.TRUE);
+                if(tmp.getUsername().equals(u.getUsername())){
+                    return true;
+                }
+            }
+        } catch (SQLException sQLException) {
+           return false;
+        }
+        return false;
+        
     }
     
 }
