@@ -10,11 +10,13 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Primax
  */
+@Repository
 public class UserDAOImplementation implements UserDAO{
 
     @Override

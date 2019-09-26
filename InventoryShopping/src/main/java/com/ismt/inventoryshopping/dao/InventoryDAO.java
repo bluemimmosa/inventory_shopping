@@ -11,7 +11,7 @@ import com.ismt.inventoryshopping.entity.Inventory;
  *
  * @author Primax
  */
-public interface InventoryDAO {
+public interface InventoryDAO extends BaseVariable{
     public boolean addItem(Inventory item);
     public boolean editItem(int pid, String param, String value);
     public boolean saleItem(Inventory item);
