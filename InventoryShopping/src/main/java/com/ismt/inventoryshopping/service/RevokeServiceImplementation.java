@@ -9,6 +9,7 @@ import com.ismt.inventoryshopping.dao.RevokeDAO;
 import com.ismt.inventoryshopping.entity.Revoke;
 import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
