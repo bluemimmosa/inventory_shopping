@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  * @author Primax
  */
+@Service
 public class RevokeServiceImplementation implements RevokeService{
     
     @Autowired
