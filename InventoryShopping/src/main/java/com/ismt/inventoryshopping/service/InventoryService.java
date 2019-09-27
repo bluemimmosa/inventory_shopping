@@ -17,4 +17,5 @@ public interface InventoryService {
     public boolean revokeItem(Inventory item);
     public boolean saleItem(Inventory item, int quantity);
     public boolean updatePrice(Inventory item, double sellingprice);
+    public Inventory findItem(String pid);
 }

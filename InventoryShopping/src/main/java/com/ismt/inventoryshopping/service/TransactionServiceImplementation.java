@@ -5,48 +5,34 @@
  */
 package com.ismt.inventoryshopping.service;
 
-import com.ismt.inventoryshopping.dao.InventoryDAO;
-import com.ismt.inventoryshopping.entity.Inventory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.ismt.inventoryshopping.entity.Transaction;
+import java.sql.Date;
+import java.util.ArrayList;
 
 /**
  *
  * @author Primax
  */
-@Service
-public class InventoryServiceImplementation implements InventoryService{
-    @Autowired
-    InventoryDAO inventorydao;
-    
+public class TransactionServiceImplementation implements TransactionService{
+
     @Override
-    public boolean addItem(Inventory arg0) {
+    public boolean createTransaction(Transaction arg0) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean transferItem(Inventory arg0, int arg1) {
+    public ArrayList<Transaction> saleReport(Date arg0, Date arg1) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean revokeItem(Inventory arg0) {
+    public ArrayList<Transaction> todaySaleReport() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean saleItem(Inventory arg0, int arg1) {
+    public ArrayList<Transaction> generateBill(Transaction arg0) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public boolean updatePrice(Inventory arg0, double arg1) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public Inventory findItem(int pid) {
-        return inventorydao.findItem(pid);
     }
     
 }

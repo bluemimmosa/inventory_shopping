@@ -15,4 +15,5 @@ public interface InventoryDAO extends BaseVariable{
     public boolean addItem(Inventory item);
     public boolean editItem(int pid, String param, String value);
     public boolean saleItem(Inventory item);
+    public Inventory findItem(int pid);
 }   
