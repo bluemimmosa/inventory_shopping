@@ -7,21 +7,23 @@ package com.ismt.inventoryshopping.dao;
 
 import static com.ismt.inventoryshopping.dao.BaseVariable.dbConn;
 import com.ismt.inventoryshopping.entity.Transaction;
-import com.ismt.inventoryshopping.entity.User;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import org.springframework.stereotype.Repository;
 
 /**
  *
  * @author Primax
  */
+@Repository
 public class TransactionDAOImplementation implements TransactionDAO{
 
     @Override
     public boolean createTransaction(int transaction_id, int pid, int quantity, double total, double discount, double tax, Date date, int customer_id, int user_id, int payment_method, boolean revoked) {
-        String sql = "";
+        String sql = "INSERT INTO `shopping`.`transaction` (`transaction_id`, `pid`, `quantity`, `total`, `discount`, `tax`, `date`, `customer_id`, `user_id`, `payment_method`, `revoked`) "
+                + "VALUES ('"+transaction_id+"', '"+pid+"', '"+quantity+"', '"+total+"', '"+discount+"', '"+tax+"', '"+date+"', '"+customer_id+"', '"+user_id+"', '"+payment_method+"', '"+revoked+"');";
         return dbConn.iud(sql);
     }
 

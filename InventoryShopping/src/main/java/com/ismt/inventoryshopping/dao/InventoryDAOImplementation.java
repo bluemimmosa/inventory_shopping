@@ -7,8 +7,6 @@ package com.ismt.inventoryshopping.dao;
 
 import static com.ismt.inventoryshopping.dao.BaseVariable.dbConn;
 import com.ismt.inventoryshopping.entity.Inventory;
-import com.ismt.inventoryshopping.entity.User;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.springframework.stereotype.Repository;
@@ -21,18 +19,31 @@ import org.springframework.stereotype.Repository;
 public class InventoryDAOImplementation implements InventoryDAO {
 
     @Override
-    public boolean addItem(Inventory arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean addItem(Inventory item) {
+        String sql = "INSERT INTO `shopping`.`inventory` (`pid`, `product_id`, `batch_id`, `description`, `quantity`, `cost_price`, `selling_price`, `warehouse_id`) "
+                + "VALUES ('"+item.getPid()+"', '"+item.getProduct_id()+"', '"+item.getBatch_id()+"', '"+item.getDescription()+"', '"+item.getQuantity()+"', '"+item.getCost_price()+"', '"+item.getSelling_price()+"', '"+item.getWarehouse_id()+"');";
+        return dbConn.iud(sql);
     }
 
     @Override
-    public boolean editItem(int arg0, String arg1, String arg2) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean editItem(int pid, String param, String value) {
+        String sql;
+        if(param.equals("description")){
+            sql = "UPDATE `shopping`.`inventory` SET `"+param+"` = '"+value+"' WHERE (`pid` = '"+pid+"');";
+        }else if(param.equals("cost_price") || param.equals("selling_price")){
+            sql = "UPDATE `shopping`.`inventory` SET `"+param+"` = '"+Double.parseDouble(value)+"' WHERE (`pid` = '"+pid+"');";
+        }else{
+            sql = "UPDATE `shopping`.`inventory` SET `"+param+"` = '"+Integer.parseInt(value)+"' WHERE (`pid` = '"+pid+"');";            
+        }
+        return dbConn.iud(sql);
     }
 
     @Override
-    public boolean saleItem(Inventory arg0) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public boolean saleItem(Inventory item) {
+        // in case we are getting inventory and then subtracting it from stock.
+        // needs logical overhaul according to business logic.
+        String sql = "UPDATE `shopping`.`inventory` SET `quantity` = '"+item.getQuantity()+"' WHERE (`pid` = '"+item.getPid()+"');";
+        return dbConn.iud(sql);
     }
 
     @Override

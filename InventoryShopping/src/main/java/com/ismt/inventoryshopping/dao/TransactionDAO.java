@@ -16,6 +16,6 @@ import java.util.ArrayList;
 public interface TransactionDAO extends BaseVariable{
     public boolean createTransaction(int transaction_id, int pid, int quantity, double total, double discount, double tax, Date date, int customer_id, int user_id, int payment_method, boolean revoked);
     public ArrayList<Transaction> saleReport(Date fromDate, Date toDate);
-    public ArrayList<Transaction> todaySaleReport();
+    //public ArrayList<Transaction> todaySaleReport();
     public ArrayList<Transaction> generateBill(Transaction transaction);
 }

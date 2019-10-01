@@ -29,17 +29,33 @@ public class CustomerDAOImplementation implements CustomerDAO{
 
     @Override
     public boolean editCustomer(int customer_id, String name, String address, long tpin_number, long contact_no) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql = "UPDATE `shopping`.`customer` SET `name` = '"+name+"', `address` = '"+address+"', `tpin_number` = '"+tpin_number+"', `contact_no` = '"+contact_no+"' WHERE (`customer_id` = '"+customer_id+"');";
+        return dbConn.iud(sql);
     }
 
     @Override
     public boolean editCustomer(int customer_id, String param, String value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if(param.equals("customer_id")){
+            return false;
+        }
+        String sql = "UPDATE customer SET "+param+" = '"+value+"';";
+        return dbConn.iud(sql);
     }
 
     @Override
     public ArrayList<Customer> listAllCustomer(String wildcard) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        String sql ="SELECT * FROM shopping.customer WHERE name LIKE '"+wildcard+"';";
+        ResultSet rs = dbConn.select(sql);
+        ArrayList<Customer> data = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Customer tmp = new Customer(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getLong(4), rs.getLong(5));
+                data.add(tmp);
+            }
+        } catch (SQLException sQLException) {
+           return null;
+        }
+        return data;
     }
 
     @Override
